@@ -2,10 +2,11 @@
   margin: 0 auto;
   font-family: 'Poppins';
   box-sizing: border-box;
+  border: none;
 }
 
 body{
   
-  background-color: #22272e;
+  background-color: #fff;
   height: 100%;
 }

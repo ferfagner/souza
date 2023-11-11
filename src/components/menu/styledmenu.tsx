@@ -13,15 +13,11 @@ export const NavbarContainer = styled.div`
   align-items: center;
   background-color: ${(props) => props.theme.colors.white};
   color: ${(props) => props.theme.colors.red100};
+  padding: 1rem;
+  box-shadow: 0px 0px 5px ${(props) => props.theme.colors.red100};
    
 `;
 
-export const Padding = styled.div`
-display: flex;
-  justify-content: space-between;
-  align-items: center;
-padding: 1rem;
-`
 
 export const LogoImg = styled.img`
    width: 15%;
@@ -42,7 +38,6 @@ export const OMenu = styled.div<OMenuProps>`
   display: flex;
   align-items: center;
   z-index: 2;
-  margin-top: 2rem;
 
   @media (max-width: 768px) {
     display: none;
@@ -70,7 +65,7 @@ export const MenuItem = styled.a`
   }
 `;
 
-export const LoginButton = styled.div`
+export const LoginButton = styled.a`
 
 text-decoration: none;
 display: flex;
@@ -80,9 +75,9 @@ justify-content: center;
  
   cursor: pointer;
   background-color: ${(props) => props.theme.colors.red100};
-  height: 6rem;
-  width: 7rem;
-  margin-right: 1rem;
+  padding: 0.5rem;
+  margin: 0 1rem;
+  border-radius: 5px;
   font-weight: 700;
   text-align: center;
   &:hover {
