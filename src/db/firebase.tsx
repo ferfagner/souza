@@ -3,6 +3,9 @@ import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth'
 import { getFirestore } from "firebase/firestore";
 
+console.log('teste')
+
+console.log(process.env.FIREBASE_APIKEY)
 
 
 const firebaseConfig = {
