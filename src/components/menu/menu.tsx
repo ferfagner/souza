@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {NavbarContainer,LogoImg, MenuIcon,OMenu, MenuItem, LoginButton} from './styledmenu'
 import Logo from '../../assets/logo1.webp'
 
-import Home from '../../pages/Home/home';
 
 
 
