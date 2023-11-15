@@ -7,16 +7,19 @@ export default function Callback(){
 
     let code = searchParams.get("code")
 
+
     async function fetchData () {
         const autorization = btoa(`${process.env.BLING_CLIENT_ID}:${process.env.BLING_CLIENT_SICRET}`)
-
+        const data = new URLSearchParams();
+        data.append('grant_type', 'authorization_code');
+        data.append('code', `${code}`);
         
-       await axios.post(`https://www.bling.com.br/Api/v3/oauth/token?grant_type=authorization_code&code=${code}`, { 
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': '1.0',
-        'Authorization': `Basic ${autorization}`,
-
-        })
+        const headers = {
+         'Content-Type': 'application/x-www-form-urlencoded',
+         'Accept': '1.0',
+         'Authorization': `Basic ${autorization}`,
+            };
+        axios.post('https://www.bling.com.br/Api/v3/oauth/token', data, { headers })
           .then(response => {
             console.log(response.data);
           })
