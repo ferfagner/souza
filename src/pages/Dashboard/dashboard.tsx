@@ -9,16 +9,17 @@ import { useEffect } from 'react';
 export default function Dashboard(){
 
     function api() {
-        axios.get(`https://www.bling.com.br/Api/v3/nfe`, {
+        axios.get(`https://www.bling.com.br/Api/v3/contatos`, {
           headers:{
             'Authorization': 'Bearer 33ce15f75248956271f93600a6b331320e044425',
             'Content-Type': 'application/json',
           }
         }).then((response) => {
          console.log(response)
-          
-        }).catch(() => {
          
+          
+        }).catch((error) => {
+         console.log(error)
         });
       }
 
