@@ -11,18 +11,13 @@ export default function Callback(){
     async function fetchData () {
         const autorization = btoa(`${process.env.BLING_CLIENT_ID}:${process.env.BLING_CLIENT_SICRET}`)
 
+        
+       await axios.post(`https://www.bling.com.br/Api/v3/oauth/token?grant_type=authorization_code&code=${autorization}`, { 
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': '1.0',
+        'Authorization': `Basic ${autorization}`,
 
-        const data = new URLSearchParams();
-        data.append('grant_type', 'authorization_code');
-        data.append('code', `${code}`);
-        
-        const headers = {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': '1.0',
-          'Authorization': `Basic ${autorization}`,
-        };
-        
-       await axios.post('https://www.bling.com.br/Api/v3/oauth/token', data, { headers })
+        })
           .then(response => {
             console.log(response.data);
           })
