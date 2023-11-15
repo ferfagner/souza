@@ -1,10 +1,11 @@
 import Menu from '../../components/menu/menu'
 import Sliders from '../../components/sliders/sliders'
-import {Body,Header,Container} from './styleshome'
+import {Body,Header,Container,PlanosContainer,ZigzagLine} from './styleshome'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Cards } from '../../components/cards/cards';
 import {FiAlertTriangle,FiDollarSign,FiMapPin, FiVideo,FiXCircle,FiPhoneCall } from 'react-icons/fi';
+import PlanoCard from '../../components/planoCard/planoCard';
 
 
 export default function Home() {
@@ -48,6 +49,24 @@ export default function Home() {
     // Adicione mais URLs de imagens conforme necessário
   ];
 
+  const prices = [
+    {
+      title: 'Básico',
+      price: 'R$ 10,00/mês',
+      features: ['Recurso 1', 'Recurso 2', 'Recurso 3'],
+    },
+    {
+      title: 'Padrão',
+      price: 'R$ 20,00/mês',
+      features: ['Recurso 1', 'Recurso 2', 'Recurso 3', 'Recurso 4'],
+    },
+    {
+      title: 'Premium',
+      price: 'R$ 30,00/mês',
+      features: ['Recurso 1', 'Recurso 2', 'Recurso 3', 'Recurso 4', 'Recurso 5'],
+    },
+  ];
+
   return (
     <Container>
       <Header>
@@ -56,6 +75,12 @@ export default function Home() {
     <Body>
     <Sliders items={carouselItems}/>
     <Cards items={cards}/>
+    <ZigzagLine/>
+    <PlanosContainer>
+      <h2>Nossos Planos</h2>
+      <PlanoCard prices={prices}/>
+    </PlanosContainer>
+    <ZigzagLine/>
     </Body>
     </Container>
    

@@ -1,5 +1,5 @@
 // Login.js
-import {  useState } from 'react';
+import React, {  useState } from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {Autenticator, Firestore} from '../../db/firebase'
 import {Body,ErrorMensage,Bottom,TiTle,Header,Container} from './styledlogin'
@@ -78,7 +78,7 @@ export default function Login() {
             </form>
             <Bottom>
               <p>Não tem login? </p>
-              <p>Crie sua conta agora <a href='/register'>Clicando Aqui!</a></p>
+              <p>Crie sua conta agora Clicando Aqui!</p>
             </Bottom>
           </div>
         </Body>

@@ -5,7 +5,7 @@ import {Autenticator, Firestore} from '../../db/firebase'
 import {Body,ErrorMensage,TiTle,Header,Container} from './styledregister'
 import Menu from '../../components/menu/menu';
 import { InputText } from '../../components/form/inputText/inputText';
-import Button from '../../components/form/button/button';
+import Button from '../../components/button/button';
 import { useNavigate } from 'react-router-dom';
 import { addDoc, collection} from "firebase/firestore"; 
 import {schema} from './schemas'
