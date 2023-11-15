@@ -1,14 +1,16 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import {  useSearchParams} from 'react-router-dom';
 
 export default function Callback(){
-    const { code } = useParams();
+    let [searchParams] = useSearchParams();
+
+    let code = searchParams.get("code")
+    //let state = searchParams.get("state")
 
     async function fetchData () {
-        
-        const autorization = atob(`${process.env.BLING_CLIENT_ID}:${process.env.BLING_CLIENT_SICRET}`)
-        console.log(autorization)
+        const autorization = btoa(`${process.env.BLING_CLIENT_ID}:${process.env.BLING_CLIENT_SICRET}`)
+
 
         const data = new URLSearchParams();
         data.append('grant_type', 'authorization_code');
@@ -30,12 +32,12 @@ export default function Callback(){
         }
 
         useEffect(()=>{
-            fetchData()
+           fetchData()
         },[])
     
     return(
         <>
-       <h2>{code}</h2>
+       <h2>a</h2>
         </>
     )
 
