@@ -11,13 +11,14 @@ export default function Dashboard(){
     function api() {
         axios.get(`https://www.bling.com.br/Api/v3/nfe`, {
           headers:{
-            Authorization: 'Bearer 33ce15f75248956271f93600a6b331320e044425'
+            'Authorization': 'Bearer 33ce15f75248956271f93600a6b331320e044425',
+            'Content-Type': 'application/json',
           }
         }).then((response) => {
          console.log(response)
           
-        }).catch((error) => {
-          console.error('Erro ao obter dados:', error);
+        }).catch(() => {
+         
         });
       }
 
