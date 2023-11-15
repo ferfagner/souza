@@ -17,7 +17,7 @@ export default function Rotas() {
            <Route path="/login" element={<Login/>}  />
            <Route path="/register" element={<Register/>}  />
            <Route path="/dashboard" element={<Dashboard/>}  />
-           <Route path="/callback:code" element={<Callback/>}  />
+           <Route path="/callback/:code" element={<Callback/>}  />
            </Routes>
 
     </BrowserRouter>

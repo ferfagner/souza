@@ -8,6 +8,7 @@ export default function Callback(){
     async function fetchData () {
         
         const autorization = atob(`${process.env.BLING_CLIENT_ID}:${process.env.BLING_CLIENT_SICRET}`)
+        console.log(autorization)
 
         const data = new URLSearchParams();
         data.append('grant_type', 'authorization_code');
