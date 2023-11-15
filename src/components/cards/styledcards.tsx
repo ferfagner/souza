@@ -21,7 +21,7 @@ export const Card = styled.div`
   margin-top: 1rem;
   border: 1px solid #ddd;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.colors.red50};
+  background-color: ${(props) => props.theme.colors.red100};
   transition: transform 0.2s ease-in-out;
   border: none;
 `;
