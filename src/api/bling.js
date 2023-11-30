@@ -4,6 +4,8 @@ import {  useSearchParams} from 'react-router-dom';
 export default async function handler(req, res){
     let [searchParams] = useSearchParams();
 
+    console.log(' acessou')
+
     let code = searchParams.get("code")
     const tokenUrl = 'https://www.bling.com.br/Api/v3/oauth/token';
 
