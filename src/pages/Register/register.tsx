@@ -36,16 +36,36 @@ export default function Register() {
           headers: {
             'accept': 'application/json',
             'content-type': 'application/json',
-            'access_token': process.env.API_ASAAS 
+            'access_token': process.env.API_ASAAS // Adicione qualquer header adicional aqui
           },
         },).then(response => {
           console.log(response)
         })
         .catch(error => {
-          // lide com o erro
+          console.log(error)
         });
 
-      
+        createUserWithEmailAndPassword(Autenticator, values.email, values.password)
+        .then(async({user})=>{
+
+            
+
+         const Ouser = await addDoc(collection(Firestore, 'users'),{
+              id: user.uid,
+              idBling: '0026',
+              nome: values.nome,
+              email: values.email,
+              senha: values.password,
+              cpf: values.cpfOrCnpj,
+            });
+            
+            navigate('/dashboard', { state: Ouser });
+        }).catch(error =>{
+          if(error.code === 'auth/email-already-in-use'){
+            setErroLog('esse e-mail já foi cadastrado!')
+          }
+
+        })
 
       },
     });
