@@ -1,8 +1,8 @@
 // Login.js
 import {  useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import {Autenticator, Firestore} from '../../db/firebase'
-import {Body,ErrorMensage,TiTle,Header,Container} from './styledregister'
+import {Autenticator, Firestore} from '../../db/firebase';
+import {Body,ErrorMensage,TiTle,Header,Container} from './styledregister';
 import Menu from '../../components/menu/menu';
 import { InputText } from '../../components/form/inputText/inputText';
 import Button from '../../components/button/button';
