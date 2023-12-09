@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => {
       'process.env.FIREBASE_MEASUREMENTID': JSON.stringify(env.FIREBASE_MEASUREMENTID),
       'process.env.BLING_CLIENT_ID': JSON.stringify(env.BLING_CLIENT_ID),
       'process.env.BLING_CLIENT_SICRET': JSON.stringify(env.BLING_CLIENT_SICRET),
+      'process.env.API_ASAAS': JSON.stringify(env.API_ASAAS),
 
     },
     plugins: [react()],
