@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import {NavbarContainer,LogoImg, MenuIcon,OMenu, MenuItem, LoginButton} from './styledmenu'
 import Logo from '../../assets/logo1.webp'
+import {useAuth} from '../../hooks/auth'
 
 
 
 
 export default function Menu () {
     const [menuOpen, setMenuOpen] = useState(false);
-  
+  const {isAuthenticated} = useAuth()
     const toggleMenu = () => {
         setMenuOpen((prevMenuOpen) => !prevMenuOpen);
     };
@@ -22,7 +23,7 @@ export default function Menu () {
           <MenuItem href="#">Vantagens</MenuItem>
           <MenuItem href="#">Como Funciona</MenuItem>
           <MenuItem href="#">Contato</MenuItem>
-          <LoginButton href="/login">Area do Cliente</LoginButton>
+          <LoginButton href={isAuthenticated? '/dashboard': '/login'}>Area do Cliente</LoginButton>
         </OMenu>
        
       </NavbarContainer>

@@ -1,5 +1,5 @@
 // Login.js
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Autenticator, Firestore } from '../../db/firebase';
 import { Body, ErrorMensage, TiTle, Header, Container } from './styledregister';
@@ -11,27 +11,16 @@ import { addDoc, collection } from "firebase/firestore";
 import { schema } from './schemas'
 import { useFormik } from 'formik';
 import axios from 'axios';
+import PopUp from '../../components/popUp/popUp';
 
 export default function Register() {
   const navigate = useNavigate();
   const [errolog, setErroLog] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const listCustomers = async () => {
-  try {
+  const [isPopupOpen, setPopupOpen] = useState(false);
 
-    const response = await axios.get('https://api.asaas.com/v3/customers?name=Marcelo', {
-      headers: {
-        'access_token': process.env.API_ASAAS,
-      },
-    });
-
-   
-
-    console.log(response.data);
-  } catch (error) {
-    console.error(error);
-  }
-  }
+  
   const formik = useFormik({
     initialValues: {
       nome: '',
@@ -43,26 +32,39 @@ export default function Register() {
     validationSchema: schema,
     onSubmit: async (values) => {
 
-     
-    
-       
-       
+      setLoading(true)
+
+      let idAsaas = ''
+
+     await axios.post('http://localhost:3001/clientes',{
+        nome: values.nome,
+        email: values.email,
+        cpf: values.cpfOrCnpj,
+      })
+      .then(response => {
+        console.log(response.data.cliente)
+        idAsaas = response.data.cliente
+
+      })
+      .catch(error => setErroLog(error.response.data.error));
+
+
+       if(idAsaas.length != 0){
 
       createUserWithEmailAndPassword(Autenticator, values.email, values.password)
         .then(async ({ user }) => {
 
 
 
-          const Ouser = await addDoc(collection(Firestore, 'users'), {
+          await addDoc(collection(Firestore, 'users'), {
             id: user.uid,
-            idBling: '0026',
+            idAsaas: idAsaas,
             nome: values.nome,
             email: values.email,
-            senha: values.password,
             cpf: values.cpfOrCnpj,
           });
-
-          navigate('/dashboard', { state: Ouser });
+          setPopupOpen(true)
+          
         }).catch(error => {
           if (error.code === 'auth/email-already-in-use') {
             setErroLog('esse e-mail já foi cadastrado!')
@@ -70,12 +72,14 @@ export default function Register() {
 
         })
 
-    },
+    }},
   });
 
-  useEffect(()=>{
-    listCustomers()
-  },[])
+  function closePopup( ){
+    navigate('/login');
+  }
+
+ 
 
   return (
     <Container>
@@ -145,10 +149,11 @@ export default function Register() {
             <br />
             <ErrorMensage>{errolog && <div style={{ color: 'red' }}>{errolog}</div>}</ErrorMensage>
 
-            <Button type='submit'>Registrar</Button>
+            <Button type='submit' disabled={loading} isLoading={loading}>Registrar</Button>
           </form>
 
         </div>
+        <PopUp texto='Parabéns você foi cadastrado com sucesso!' isOpen={isPopupOpen} onClick={closePopup} />
       </Body>
     </Container>
   );

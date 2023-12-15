@@ -1,18 +1,19 @@
 // Login.js
 import {  useState } from 'react';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import {Autenticator, Firestore} from '../../db/firebase';
 import {Body,ErrorMensage,Bottom,TiTle,Header,Container} from './styledlogin';
 import Menu from '../../components/menu/menu';
 import { InputText } from '../../components/form/inputText/inputText';
 import Button from '../../components/button/button';
-import { useNavigate } from 'react-router-dom';
-import { getDoc, doc } from "firebase/firestore"; 
 import {schema} from './schemas'
 import { useFormik } from 'formik';
+import {useAuth} from '../../hooks/auth'
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-    const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  const {logIn, error} = useAuth()
+    
     const [errolog, setErroLog]= useState('')
   
     const formik = useFormik({
@@ -22,19 +23,13 @@ export default function Login() {
       },
       validationSchema: schema,
       onSubmit: async (values) => {
-
-        signInWithEmailAndPassword(Autenticator, values.email, values.password)
-        .then(async({user})=>{
-
-            const docUser = await getDoc(doc(Firestore, "users", `${user.uid}`));
-            const Ouser = docUser.data();
-            navigate('/dashboard', { state: Ouser });
-        }).catch(error =>{
-            if(error.code === 'auth/invalid-login-credentials'){
-                setErroLog('E-mail ou senha incorreto!')
-              }
-
-        })
+        try{
+          await logIn({email: values.email, password: values.password})
+          navigate('/dashboard')
+        }catch{
+          setErroLog(error)
+        }
+     
 
       },
     });
