@@ -31,9 +31,6 @@ export default function Invoices(){
         getPays()
     },[])
 
-    if (!payment) {
-        return <div className="loading">Carregando...</div>;
-      }
 
     return(
         <>
@@ -46,12 +43,20 @@ export default function Invoices(){
         name={user.nome}
         />
        </SidebarContent>
+
+       {payment ?
+       
         <Body>
         {payment.map((item) => (
         <InvoicesBox data={item}/>
       ))}
           
-        </Body>
+        </Body>:
+         <Body>
+         <div className="loading">Carregando...</div>
+         </Body>
+        }
+       
         </Container>
         </>
     )

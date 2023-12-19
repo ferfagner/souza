@@ -20,6 +20,9 @@ export default{
         gray100: '#aba0a1',
         gray150: '#877d7d',
         gray200: '#363132',
+        green100: '#01863d',
+        green150: '#00602b',
+        green200: '#004720',
 
 
 

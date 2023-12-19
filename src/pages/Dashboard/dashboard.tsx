@@ -49,10 +49,6 @@ export default function Dashboard(){
         getAss()
     },[])
 
-    if (!assinatura) {
-        return <div className="loading">Carregando...</div>;
-      }
-
     return(
         <>
         <Menu/>
@@ -64,25 +60,31 @@ export default function Dashboard(){
         name={user.nome}
         />
        </SidebarContent>
-        <Body>
-            <BoxContainer>
-            <Box 
-            Icon={MdAssignmentTurnedIn}
-            valor={String(assinatura?.totalCount)}
-            title='Assinaturas'
-            />
-            <Box 
-            Icon={FaRegCalendarTimes}
-            valor={String(payment?.totalCount)}
-            title='Faturas'
-            />
-            <Box 
-            Icon={FaCar}
-            valor='0'
-            title='Carros'
-            />
-            </BoxContainer>
-        </Body>
+       {assinatura?
+       <Body>
+       <BoxContainer>
+       <Box 
+       Icon={MdAssignmentTurnedIn}
+       valor={String(assinatura?.totalCount)}
+       title='Assinaturas'
+       />
+       <Box 
+       Icon={FaRegCalendarTimes}
+       valor={String(payment?.totalCount)}
+       title='Faturas'
+       />
+       <Box 
+       Icon={FaCar}
+       valor='0'
+       title='Carros'
+       />
+       </BoxContainer>
+      </Body>:
+       <Body>
+      <div className="loading">Carregando...</div>
+      </Body>
+      }
+        
         </Container>
         </>
     )

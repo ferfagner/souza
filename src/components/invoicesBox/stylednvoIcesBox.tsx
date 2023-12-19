@@ -1,7 +1,24 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-        background-color: ${(props) => props.theme.colors.red150};
+interface ContainerProps{
+  status: string
+}
+
+export const Container = styled.div<ContainerProps>`
+ background-color: ${(props) => {
+    switch (props.status) {
+      case 'PENDING':
+        return props.theme.colors.gray200
+        case 'OVERDUE':
+            return props.theme.colors.red100
+          case 'RECEIVED':
+            return props.theme.colors.green150
+          case 'CANCELLED':
+            return props.theme.colors.black100
+          default:
+            return 'Status Desconhecido'
+        }
+      }};
         height: 15rem;
         width: 90%;
         display: flex;

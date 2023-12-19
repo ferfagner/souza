@@ -8,16 +8,31 @@ interface dataProrps{
 
 export default function InvoicesBox({data}:dataProrps){
 
+    const getStatusText = (status:string) => {
+        switch (status) {
+          case 'PENDING':
+            return 'Aguardando Pagamento';
+          case 'OVERDUE':
+            return 'Em Atraso';
+          case 'RECEIVED':
+            return 'Recebido';
+          case 'CANCELLED':
+            return 'Cancelado';
+          default:
+            return 'Status Desconhecido';
+        }
+      };
+
 
     return(
-        <Container>
+        <Container status={data.status}>
             <RigthInfo>
             <StyledH3>Código:</StyledH3>
             <StyledH2>{data.id}</StyledH2>
             <StyledH3>Data de Vencimento:</StyledH3>
             <StyledH2>{data.dueDate}</StyledH2>
             <StyledH3>Status:</StyledH3>
-            <StyledH2>{data.status === 'PENDING' ? 'Aguardando Pagamento' : data.status}</StyledH2>
+            <StyledH2>{getStatusText(data.status)}</StyledH2>
             </RigthInfo>
 
             <LeftInfo>
