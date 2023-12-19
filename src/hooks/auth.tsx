@@ -4,28 +4,19 @@ import {Autenticator} from '../db/firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getUserById } from '../db/userServices';
 import {useEffect} from 'react'
+import{UserDTO} from '../DTO/userDTO'
 
 interface LogInCredential{
     email: string;
     password: string;
 }
 
-interface UserProps {
-
-    id: string;
-    cpf: string;
-    email: string;
-    idAsaas: string;
-    nome: string;
-    
-
-}
 
 interface AuthContextType {
   isAuthenticated: boolean;
   logIn: (credential: LogInCredential) => Promise<void>
   logOut: () => void;
-  user: UserProps;
+  user: UserDTO;
   error: string
 }
 
@@ -40,7 +31,7 @@ interface AuthProviderProps {
 function AuthProvider({children}: AuthProviderProps){
   const [isAuthenticated, setAuthenticated] = useState(false);
   const [error, setError] = useState<string>('');
-  const [data, setData] = useState<UserProps>({} as UserProps)
+  const [data, setData] = useState<UserDTO>({} as UserDTO)
 
   async function logIn(credential: LogInCredential) {
     

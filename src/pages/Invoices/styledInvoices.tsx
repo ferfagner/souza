@@ -5,6 +5,8 @@ export const Container = styled.div`
   height: 100vh;
   display: flex;
   justify-content: space-between;
+  overflow: scroll; 
+  box-sizing: border-box;
   
 `;
 
@@ -23,16 +25,5 @@ export const SidebarContent = styled.div`
 `;
 
 
-
-export const BoxContainer = styled.div`
-   display: flex;
-  flex-direction: column; 
-  
-  
-  @media (min-width: 768px) {
-    flex-direction: row; 
-    
-  }
-`;
 
 

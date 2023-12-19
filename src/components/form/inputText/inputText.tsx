@@ -8,16 +8,18 @@ import {Container, Title, Input} from './styledInputText'
         error?: string
         name?:  string,
         value:string
+        onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void,
     }
 
 
-export function InputText({title,name, placeholder,onChange, type,error,value }: InputProps){
+export function InputText({title,name, placeholder,onChange,onBlur, type,error,value }: InputProps){
     
     return(
         
         <Container>
             <Title>{title}</Title>
             <Input 
+            onBlur={onBlur}
             placeholder={placeholder}
             onChange={onChange}
             type={type? type : 'text'}

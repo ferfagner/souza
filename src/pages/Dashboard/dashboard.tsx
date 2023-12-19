@@ -1,41 +1,89 @@
 
-import {Container, Body} from './styleddashboard'
+import {Container,SidebarContent, Body, BoxContainer} from './styleddashboard'
 import Sidebar from '../../components/sidelbar/sidebar'
-import {getAssinaturas} from '../../api/servicesApi'
+import {getAssinaturas, getCobrancas} from '../../api/servicesApi'
 import {useAuth} from '../../hooks/auth'
-import { useNavigate } from 'react-router-dom';
-import {useEffect} from 'react'
-
-  
+import {useEffect, useState} from 'react'
+import Menu from '../../components/menu/menu';
+import Box from '../../components/box/box';
+import { MdAssignmentTurnedIn } from "react-icons/md";
+import { FaRegCalendarTimes, FaCar } from "react-icons/fa";
+import {AssinaturasDTO} from '../../DTO/assinaturaDTO'
+import { BasePaymentDTO } from '../../DTO/paymentsDTO'
 
 export default function Dashboard(){
-    const navigate = useNavigate()
-    const {user, logOut} = useAuth()
-
     
+    const {user} = useAuth()
+    const [assinatura, setAssinaturas] = useState<AssinaturasDTO>()
+    const [payment, setPayment] = useState<BasePaymentDTO>()
 
-    function logout (){
 
-        logOut()
 
-        navigate('/')
-    }
+    async function getAss() {
+        try {
+          const response = await getAssinaturas(user.idAsaas);
+          setAssinaturas(response);
+        } catch (error) {
+          console.error("Erro ao buscar assinaturas:", error);
+          // Trate o erro conforme necessário
+        }
+      }
 
+      async function getPays() {
+        try {
+          const response = await getCobrancas(user.idAsaas);
+
+          setPayment(response);
+        } catch (error) {
+          console.error("Erro ao buscar assinaturas:", error);
+          // Trate o erro conforme necessário
+        }
+      }
+      
+
+      
+    
+    
     useEffect(()=>{
-        console.log(getAssinaturas(user.idAsaas)) 
-
+        getPays()
+        getAss()
     },[])
 
-  
+    if (!assinatura) {
+        return <div className="loading">Carregando...</div>;
+      }
 
     return(
+        <>
+        <Menu/>
         <Container>
+           <SidebarContent>
            
-        <Sidebar/>
-       
+        <Sidebar
+        photo='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuZqJsPamSfzJXh5NDw_yneYrucJyYQyDg2g&usqp=CAU'
+        name={user.nome}
+        />
+       </SidebarContent>
         <Body>
-            <h2><button onClick={()=> logout()}>Logout</button></h2>
+            <BoxContainer>
+            <Box 
+            Icon={MdAssignmentTurnedIn}
+            valor={String(assinatura?.totalCount)}
+            title='Assinaturas'
+            />
+            <Box 
+            Icon={FaRegCalendarTimes}
+            valor={String(payment?.totalCount)}
+            title='Faturas'
+            />
+            <Box 
+            Icon={FaCar}
+            valor='0'
+            title='Carros'
+            />
+            </BoxContainer>
         </Body>
         </Container>
+        </>
     )
 }

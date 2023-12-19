@@ -3,6 +3,7 @@ import Dashboard from '../pages/Dashboard/dashboard';
 import Home from '../pages/Home/home';
 import Login from '../pages/Login/login';
 import Register from '../pages/Register/register';
+import Invoices from '../pages/Invoices/invoices';
 
 const AuthenticatedRoutes = () => (
   <Routes>
@@ -10,7 +11,7 @@ const AuthenticatedRoutes = () => (
     <Route path="/" element={<Home />} />
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
-    {/* Adicione mais rotas autenticadas conforme necessário */}
+    <Route path="/invoices" element={<Invoices />} />
   </Routes>
 );
 

@@ -11,7 +11,7 @@ interface ButtonProps {
 
 export default function Button({ type, onClick, disabled, children, isLoading }:ButtonProps) {
   return (
-    <Container type={type} onClick={onClick} disabled={disabled ? disabled: false}>
+    <Container isactivy={disabled ? disabled : false} type={type} onClick={onClick} >
       {isLoading ? 'Carregando...' : children}
     </Container>
   );

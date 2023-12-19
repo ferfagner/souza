@@ -7,11 +7,9 @@ export const Container = styled.div`
   
 `;
 export const Body = styled.div`
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
   margin-top: 3rem;
   
  
