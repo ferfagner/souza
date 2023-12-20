@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const navigate = useNavigate()
-
+console.log()
   const {logIn} = useAuth()
     
     const [errolog, setErroLog]= useState('')
