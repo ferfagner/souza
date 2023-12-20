@@ -12,11 +12,14 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
   const navigate = useNavigate()
 
-  const {logIn, error} = useAuth()
+  const {logIn} = useAuth()
     
     const [errolog, setErroLog]= useState('')
+
+    
   
     const formik = useFormik({
+      
       initialValues: {
         email: '',
         password: '',
@@ -25,14 +28,19 @@ export default function Login() {
       onSubmit: async (values) => {
         try{
           await logIn({email: values.email, password: values.password})
-          navigate('/dashboard')
-        }catch{
-          setErroLog(error)
+         
+            navigate('/dashboard')
+        }catch(error) {
+          setErroLog(String(error)) // Definir uma mensagem padrão, se não houver uma mensagem de erro
         }
      
-
+        
       },
     });
+
+    const handleInputChange = () => {
+      setErroLog('');
+    };
   
     return (
       <Container>
@@ -49,7 +57,11 @@ export default function Login() {
                   placeholder='Digite seu E-mail'
                   type='e-mail'
                   name='email'
-                  onChange={formik.handleChange}
+                  onChange={(e)=>{
+                    formik.handleChange(e)
+                    handleInputChange()
+                  
+                  }}
                   value={formik.values.email}
                   error={formik.errors.email}
                 />
@@ -60,13 +72,18 @@ export default function Login() {
                   title='Senha:'
                   placeholder='Digite sua Senha'
                   type='password'
-                  onChange={formik.handleChange}
+                  onChange={(e)=>{
+                    formik.handleChange(e)
+                    handleInputChange()
+                  
+                  }}
                   name='password'
                   value={formik.values.password}
                   error={formik.errors.password}
                 />
               </label>
               <br />
+              
               <ErrorMensage>{errolog && <div style={{ color: 'red' }}>{errolog}</div>}</ErrorMensage>
               
               <Button type='submit'>Logar</Button>

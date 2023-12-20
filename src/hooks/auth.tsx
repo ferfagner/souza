@@ -11,14 +11,13 @@ interface LogInCredential{
     password: string;
 }
 
-
 interface AuthContextType {
   isAuthenticated: boolean;
   logIn: (credential: LogInCredential) => Promise<void>
   logOut: () => void;
   user: UserDTO;
-  error: string
 }
+
 
 
 
@@ -30,34 +29,30 @@ interface AuthProviderProps {
 
 function AuthProvider({children}: AuthProviderProps){
   const [isAuthenticated, setAuthenticated] = useState(false);
-  const [error, setError] = useState<string>('');
   const [data, setData] = useState<UserDTO>({} as UserDTO)
 
   async function logIn(credential: LogInCredential) {
-    
- 
-   await signInWithEmailAndPassword(Autenticator, credential.email, credential.password)
-    .then(async({user})=>{
-
-        const userData = await getUserById(user.uid)
-        
-        if (userData) {
-            setData(userData)
-        }
-        setAuthenticated(true)
-
-        localStorage.setItem('authState', JSON.stringify({ isAuthenticated: true, data: userData }));
-          
-      }).catch(error => {
-        console.error(error);
-        if (error.code === 'auth/invalid-login-credentials') {
-          setError('E-mail ou senha incorretos!');
-        } else {
-          setError('Erro ao fazer login. Por favor, tente novamente mais tarde.');
-        }
-
-      })
-  };
+    try {
+      const { user } = await signInWithEmailAndPassword(Autenticator, credential.email, credential.password);
+      const userData = await getUserById(user.uid);
+  
+      if (userData) {
+        setData(userData);
+      }
+  
+      setAuthenticated(true);
+      localStorage.setItem('authState', JSON.stringify({ isAuthenticated: true, data: userData }));
+  
+    } catch (error:any) {
+  
+      if (error.code === 'auth/invalid-login-credentials') {
+        throw new Error('E-mail ou senha incorretos!');
+      } else {
+        throw new Error('Erro ao fazer login. Tente novamente.');
+      }
+    }
+  }
+  
 
   function logOut () {
     setAuthenticated(false);
@@ -73,6 +68,8 @@ function AuthProvider({children}: AuthProviderProps){
       setAuthenticated(parsedAuthState.isAuthenticated);
       setData(parsedAuthState.data);
     }
+
+    
   }, []);
 
   return (
@@ -81,7 +78,6 @@ function AuthProvider({children}: AuthProviderProps){
         user: data,
         logIn,
         logOut,
-        error
     }}>
       {children}
     </AuthContext.Provider>
