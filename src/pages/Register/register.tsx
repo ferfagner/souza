@@ -1,18 +1,16 @@
 // Login.js
 import { useState } from 'react';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Autenticator, Firestore } from '../../db/firebase';
 import { LogradouroDTO } from '../../DTO/logradouroDTO'
 import { Body, ErrorMensage, TiTle, Header, Container } from './styledregister';
 import Menu from '../../components/menu/menu';
 import { InputText } from '../../components/form/inputText/inputText';
 import Button from '../../components/button/button';
 import { useNavigate } from 'react-router-dom';
-import { addDoc, collection } from "firebase/firestore";
 import { schema } from './schemas'
 import { useFormik } from 'formik';
 import axios from 'axios';
 import PopUp from '../../components/popUp/popUp';
+import {BASE_URL, USER} from '../../api/api.d'
 
 export default function Register() {
   const navigate = useNavigate();
@@ -20,7 +18,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false)
   const [logradouro, setLogradouro] = useState<LogradouroDTO>()
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const [disabled, setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(false)
 
   async function handleCEP(cep: string) {
     await axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((response) => {
@@ -31,6 +29,7 @@ export default function Register() {
     })
     setDisabled(false)
   }
+
 
   const formik = useFormik({
     initialValues: {
@@ -50,59 +49,35 @@ export default function Register() {
     },
     validationSchema: schema,
     onSubmit: async (values) => {
-      console.log('clicou')
+      setDisabled(true)
       setLoading(true)
-
-      let idAsaas = ''
-
-      await axios.post('http://localhost:3001/clientes', {
+      await axios.post(`${BASE_URL}${USER}`, {
         nome: values.nome,
         email: values.email,
+        password: values.password,
         cpf: values.cpfOrCnpj,
         cep: values.cep,
         celular: values.celular,
-        numero: values.numero
+        numero: values.numero,
+        bairro: values.bairro,
+        cidade: values.cidade,
+        uf: values.uf,
+        logradouro: values.logradouro,
+        complemento: values.complemento
+
       })
         .then(response => {
-          console.log(response.data.cliente)
-          idAsaas = response.data.cliente
+
+          console.log(response)
+
+         if(response.status === 200) 
+          setPopupOpen(true)
 
         })
-        .catch(error => setErroLog(error.response.data.error));
+        .catch(error =>setErroLog(error.response.data.message));
 
 
-      if (idAsaas.length != 0) {
-
-        createUserWithEmailAndPassword(Autenticator, values.email, values.password)
-          .then(async ({ user }) => {
-
-
-
-            await addDoc(collection(Firestore, 'users'), {
-              id: user.uid,
-              idAsaas: idAsaas,
-              nome: values.nome,
-              email: values.email,
-              cpf: values.cpfOrCnpj,
-              cep: values.cep,
-              logradouro: values.logradouro,
-              complemento: values.complemento,
-              bairro: values.bairro,
-              cidade: values.cidade,
-              uf: values.uf,
-              numero: values.numero,
-              celular: values.celular
-            });
-            setPopupOpen(true)
-
-          }).catch(error => {
-            if (error.code === 'auth/email-already-in-use') {
-              setErroLog('esse e-mail já foi cadastrado!')
-            }
-
-          })
-
-      }
+     
     },
   });
 
